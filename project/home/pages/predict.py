@@ -59,7 +59,7 @@ st.write('R^2: ', r2_score(y_test, y_pred))
 
 st.title('Dự đoán dân số của một quốc gia')
 st.write(data[['Rank','Country/Territory']])
-aff = st.number_input('Growth Rate', min_value=0, max_value=234, value=0)
+aff = st.number_input('Rank', min_value=1, max_value=len(data), value=1)
 
 test = pd.DataFrame({
     'Growth Rate': [data['Growth Rate'].iloc[int(aff)-1]],

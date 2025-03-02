@@ -9,9 +9,9 @@ st.set_page_config(
     page_icon="🌍",
 )
 st.title('Top 10 quốc gia có dân số cao nhất')
-st.sidebar.title('Home')
-st.sidebar.title('Some chart')
-st.sidebar.title('Predictions')
+# st.sidebar.page_link('/project/home/pGE/web.py',label='home')
+# st.sidebar.page_link('/project/home/pGE/app1.py',label='chart')
+# st.sidebar.page_link('/project/home/pGE/predict.py',label='Predictions')
 
 
 # Load the CSV file
