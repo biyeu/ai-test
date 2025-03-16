@@ -39,4 +39,4 @@ if a:
     st.write('Dữ liệu đã được huấn luyện')
     st.write('Mean Squared Error: ', mse)
     st.write('R^2: ', r2)
-    st.write('Biểu đồ so sánh giữa dự đoán và thực tế')
+    # st.write('Biểu đồ so sánh giữa dự đoán và thực tế')
