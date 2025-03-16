@@ -6,16 +6,15 @@ from sklearn.model_selection import train_test_split # chia tập train và test
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.linear_model import LinearRegression
 
 import streamlit as st
 
 # st.title('Trước và sau khi dự đoán')
-st.sidebar.title('Home')
-st.sidebar.title('Some chart')
-st.sidebar.title('Predictions')
-data = pd.read_csv('world_population.csv')
+# st.sidebar.title('Home')
+# st.sidebar.title('Some chart')
+# st.sidebar.title('Predictions')
+data = pd.read_csv('./data/world.csv')
+st.set_page_config(page_title="Dự đoán dân số", page_icon="🌍")
 data = data.sort_values(by='Rank')
 
 def train(data):
@@ -29,21 +28,24 @@ def train(data):
 
 model, y_test, y_pred = train(data)
 
-chart_data = pd.DataFrame(y_pred)
+chart_data = pd.DataFrame({
+    'Index': range(len(y_pred)),
+    'Predicted': y_pred
+})
 
 st.title('Biểu đồ so sánh giữa dự đoán và thực tế')
 
-st.scatter_chart(chart_data)
+st.scatter_chart(chart_data.set_index('Index'))
 
 st.vega_lite_chart({
     'width': 700,
     'height': 400,
     'mark': {'type': 'point', 'tooltip': True},
     'encoding': {
-        'x': {'field': 'index', 'type': 'quantitative', 'title': 'Index'},
-        'y': {'field': '0', 'type': 'quantitative', 'title': 'Predicted'}
+        'x': {'field': 'Index', 'type': 'quantitative', 'title': 'Index'},
+        'y': {'field': 'Predicted', 'type': 'quantitative', 'title': 'Predicted'}
     },
-    'data': {'values': chart_data.reset_index().to_dict(orient='records')}
+    'data': {'values': chart_data.to_dict(orient='records')}
 })
 
 plt.figure(figsize=(10, 6))
@@ -54,12 +56,10 @@ plt.ylabel('Predicted')
 plt.title('Actual vs Predicted')
 st.pyplot(plt)
 
-st.write('Mean squared error: ', mean_squared_error(y_test, y_pred))
-st.write('R^2: ', r2_score(y_test, y_pred))
 
 st.title('Dự đoán dân số của một quốc gia')
 st.write(data[['Rank','Country/Territory']])
-aff = st.number_input('Rank', min_value=1, max_value=len(data), value=1)
+aff = st.number_input('Growth Rate', min_value=1, max_value=234, value=1)
 
 test = pd.DataFrame({
     'Growth Rate': [data['Growth Rate'].iloc[int(aff)-1]],
